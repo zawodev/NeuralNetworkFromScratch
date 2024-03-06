@@ -1,4 +1,5 @@
 from data import get_mnist
+from data import get_myimg
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -7,7 +8,9 @@ import matplotlib.pyplot as plt
 w = weights, b = bias, i = input, h = hidden, o = output, l = label
 e.g. w_i_h = weights from input layer to hidden layer
 """
+
 images, labels = get_mnist()
+
 w_i_h = np.random.uniform(-0.5, 0.5, (20, 784))
 w_h_o = np.random.uniform(-0.5, 0.5, (10, 20))
 b_i_h = np.zeros((20, 1))
@@ -15,7 +18,10 @@ b_h_o = np.zeros((10, 1))
 
 learn_rate = 0.01
 nr_correct = 0
-epochs = 3
+epochs = 30
+
+print("Initializing training...")
+
 for epoch in range(epochs):
     for img, l in zip(images, labels):
         img.shape += (1,)
@@ -41,13 +47,13 @@ for epoch in range(epochs):
         b_i_h += -learn_rate * delta_h
 
     # Show accuracy for this epoch
-    print(f"Acc: {round((nr_correct / images.shape[0]) * 100, 2)}%")
+    print(f"fitness: {round((nr_correct / images.shape[0]) * 100, 2)}%")
     nr_correct = 0
 
 # Show results
-while True:
-    index = int(input("Enter a number (0 - 59999): "))
-    img = images[index]
+for i in range(10):
+    img = get_myimg(f"data/mydata/test{i}.png")
+
     plt.imshow(img.reshape(28, 28), cmap="Greys")
 
     img.shape += (1,)
@@ -58,5 +64,5 @@ while True:
     o_pre = b_h_o + w_h_o @ h
     o = 1 / (1 + np.exp(-o_pre))
 
-    plt.title(f"Subscribe if its a {o.argmax()} :)")
+    plt.title(f"I think its a {o.argmax()} :)")
     plt.show()
