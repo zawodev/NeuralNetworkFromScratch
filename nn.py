@@ -18,7 +18,7 @@ b_h_o = np.zeros((10, 1))
 
 learn_rate = 0.01
 nr_correct = 0
-epochs = 30
+epochs = 80
 
 print("Initializing training...")
 
@@ -66,3 +66,4 @@ for i in range(10):
 
     plt.title(f"I think its a {o.argmax()} :)")
     plt.show()
+
